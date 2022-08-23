@@ -1,5 +1,6 @@
 const database = require("./database");
 
+//02
 const getUsers = (req, res) => {
     database
     .query("select * from users")
@@ -12,6 +13,7 @@ const getUsers = (req, res) => {
     });
 };
 
+//02
 const getUsersById = (req, res) => {
     const id = parseInt(req.params.id);
   
@@ -30,7 +32,7 @@ const getUsersById = (req, res) => {
       });
   };
 
-
+//03
 const postUsers = (req, res) => {
   const { firstname, lastname, email, city, language } = req.body;
 
@@ -49,8 +51,31 @@ const postUsers = (req, res) => {
         });
 }
 
+//04
+const updateUsers = (req,res) => {
+  const id = parseInt(req.params.id);
+  const { firstname, lastname, email, city, language } = req.body;
+
+  database
+    .query("update users set firstname = ?, lastname = ?, email = ?, city =?, language = ? where id = ?",
+    [firstname, lastname, email, city, language, id]
+    )
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.status(404).send("Not Found");
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error editing the movie");
+    });
+};
+
 module.exports = {
-  getUsers,
-  getUsersById,
-  postUsers,
+  getUsers,//02
+  getUsersById,//02
+  postUsers,//03
+  updateUsers,//04
 };

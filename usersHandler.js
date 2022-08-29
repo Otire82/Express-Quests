@@ -22,7 +22,7 @@ const getUsers = (req, res) => {
   if (req.query.language != null) {
     sqlValues.push({
       column: "language",
-      value: req.query.languge,
+      value: req.query.language,
       operator: "=",
     });
   }

@@ -12,6 +12,9 @@ const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
 };
 
+const { validateMovie } = require("./validateMovie");
+const { validateUser } = require("./validateUser");
+
 app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
@@ -22,11 +25,11 @@ app.get("/api/movies/:id", movieHandlers.getMovieById);
 app.get("/api/users", usersHandler.getUsers);
 app.get("/api/users/:id", usersHandler.getUsersById);
 //03
-app.post("/api/movies", movieHandlers.postMovie);
-app.post("/api/users", usersHandler.postUsers);
+app.post("/api/movies", validateMovie, movieHandlers.postMovie);
+app.post("/api/users", validateUser, usersHandler.postUsers);
 //04
-app.put("/api/movies/:id", movieHandlers.updateMovie);
-app.put("/api/users/:id", usersHandler.updateUsers);
+app.put("/api/movies/:id", validateMovie, movieHandlers.updateMovie);
+app.put("/api/users/:id", validateUser, usersHandler.updateUsers);
 //05
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 app.delete("/api/users/:id", usersHandler.deleteUsers);
